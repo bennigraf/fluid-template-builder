@@ -1,0 +1,11 @@
+{{# .}}
+<trans-unit id="flux.{{module_name}}">
+    <source>{{module_label}}</source>
+</trans-unit>
+<trans-unit id="flux.{{module_name}}.description">
+    <source>
+        {{module_name}}{{#fields}} - {{#text_input}}{{& label}}{{#required}}*{{/required}}{{/text_input}}{{#textarea}}{{& label}}{{#required}}*{{/required}}{{/textarea}}{{#image}}{{& label}}{{#required}}*{{/required}}{{/image}}{{#link}}{{& label}}{{#required}}*{{/required}}{{/link}}{{#select}}{{& label}}{{#required}}*{{/required}}{{/select}}{{/fields}}
+    </source>
+</trans-unit>
+    
+{{/.}}

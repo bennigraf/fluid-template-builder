@@ -1,0 +1,46 @@
+[
+  {
+    "module_name": "99_example_module",
+    "module_label": "99: Example module",
+    "fields": [
+      { "text_input": {
+        "name": "content.headline",
+        "label": "Headline",
+        "required": true
+      }},
+      { "textarea": {
+        "name": "content.text",
+        "label": "Description"
+      }},
+      { "link": {
+        "name": "content.cta-link",
+        "label": "Link"
+      }},
+      { "select": {
+        "name": "content.color",
+        "label": "Choose the color",
+        "items": [
+          "0:{0:'Red',1:'red'},",
+          "1:{0:'A beautiful sky blue',1:'skyblue'}"
+        ]
+      }},
+      { "section": {
+        "name": "content.images",
+        "label": "Images",
+        "object_name": "image",
+        "object_label": "Image",
+        "fields": [
+          { "text_input": {
+            "name": "title",
+            "label": "Image title"
+          }},
+          { "image": {
+            "name": "image",
+            "label": "Image",
+            "required": true
+          }}
+        ]
+      }}
+    ]
+  }
+]

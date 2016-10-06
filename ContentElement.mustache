@@ -1,0 +1,154 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+     xmlns:flux="http://typo3.org/ns/FluidTYPO3/Flux/ViewHelpers"
+     xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers">
+
+    <f:layout name="Content" />
+
+    <f:section name="Configuration">
+        <flux:form id="{{module_name}}" 
+                   options="{group: 'DrPepper', Fluidcontent: {sorting: '{v:l(key:\"flux.{{module_name}}\")}'}}">
+        {{#fields}}
+            {{#text_input}}
+            <flux:field.input name="{{name}}" label="{{& label}}" {{#required}}required="true"{{/required}} />
+            {{/text_input}}
+            {{#textarea}}
+            <flux:field.text name="{{name}}" label="{{& label}}" {{#required}}required="true"{{/required}} />
+            {{/textarea}}
+            {{#link}}
+            <flux:field.input name="{{name}}" label="{{& label}}">
+                <flux:wizard.link label="{{& label}}" activeTab="page"/>
+            </flux:field.input>
+            {{/link}}
+            {{#image}}
+            <flux:field.file name="{{name}}"
+                             label="{{label}}"
+                             {{#required}}required="true"{{/required}}
+                             allowed="jpg,png,gif"
+                             showThumbnails="true" />
+            {{/image}}
+            {{#select}}
+            <flux:field.select name="{{name}}"
+                               label="{{label}}"
+                               items="{
+                               {{#items}}
+                                    {{& .}}
+                               {{/items}}
+                                }" />
+            {{/select}}
+            {{! a section basically just repeats the things up until here. This should really use
+                partials instead, but partials aren't supported by mustang yet. }}
+            {{#section}}
+            <flux:form.section name="{{name}}" label="{{& label}}">
+                <flux:form.object name="{{object_name}}" label="{{& object_label}}">
+                {{#fields}}
+                {{! COPY-PASTE-INSTEAD-OF-PARTIAL-SECTION START }}
+                    {{#text_input}}
+                    <flux:field.input name="{{name}}" label="{{& label}}" {{#required}}required="true"{{/required}} />
+                    {{/text_input}}
+                    {{#textarea}}
+                    <flux:field.text name="{{name}}" label="{{& label}}" {{#required}}required="true"{{/required}} />
+                    {{/textarea}}
+                    {{#link}}
+                    <flux:field.input name="{{name}}" label="{{& label}}">
+                        <flux:wizard.link label="{{& label}}" activeTab="page"/>
+                    </flux:field.input>
+                    {{/link}}
+                    {{#image}}
+                    <flux:field.file name="{{name}}"
+                                     label="{{label}}"
+                                     {{#required}}required="true"{{/required}}
+                                     allowed="jpg,png,gif"
+                                     showThumbnails="true" />
+                    {{/image}}
+                    {{#select}}
+                    <flux:field.select name="{{name}}"
+                                       label="{{label}}"
+                                       items="{
+                                       {{#items}}
+                                           {{& .}}
+                                       {{/items}}
+                            }" />
+                    {{/select}}
+                {{! COPY-PASTE-INSTEAD-OF-PARTIAL-SECTION END }}
+                {{/fields}}
+                </flux:form.object>
+            </flux:form.section>
+            {{/section}}
+        {{/fields}}
+        </flux:form>
+    </f:section>
+    
+
+    <f:section name="Preview">
+        <!-- If you wish, place custom backend preview content here -->
+        <strong>{{module_label}}</strong> ({{module_name}})<br />
+        {{! Here I basically change mustaches delimiters "{{" to something less incompatible with fluid: <% %> }}
+        {{=<% %>=}}
+        <%#fields%>
+        <%#text_input%>
+        <%& label%>: {<%name%>}<br />
+        <%/text_input%>
+        <%#textarea%>
+        <%& label%>:<br /> {<%name%>}<br />
+        <%/textarea%>
+        <%#link%>
+        Link: {<%name%>}<br />
+        <%/link%>
+        <%#image%>
+        <v:media.image src="{<%name%>}" alt="alt text" width="100" /><br />
+        <%/image%>
+        <%/fields%>
+        <%={{ }}=%> {{!change delimiters back to {{ }}
+    </f:section>
+    
+
+    <f:section name="Main">
+        <div class="module_{{module_name}}">
+            <h2>{{module_label}} - {{module_name}}</h2>
+            {{! change delimiters to <% %> }}
+            {{=<% %>=}}
+            <%#fields%>
+            <%#text_input%>
+            <%& label%>: {<%name%>}<br />
+            <%/text_input%>
+            <%#textarea%>
+            <%& label%>:<br /> {<%name%>}<br />
+            <%/textarea%>
+            <%#select%>
+            <%& label%>: {<%name%>}<br />
+            <%/select%>
+            <%#link%>
+            <v:link.typolink configuration="{parameter: <%name%>}"></v:link.typolink><br />
+            <%/link%>
+            <%#image%>
+            <v:media.image src="{<%name%>}" alt="alt text" width="100" /><br />
+            <%/image%>
+            <%#section%>
+            <f:for each="{<%name%>}" as="<%object_name%>_item" iteration="counter">
+                <h3><%& label%>: {counter.cycle}/{counter.total}</h3>
+                <%! this is the same copy/paste-trick-that-should-be-a-partial again as above %>
+                <%#fields%>
+                <%#text_input%>
+                <%& label%>: {<%object_name%>_item.<%object_name%>.<%name%>}<br />
+                <%/text_input%>
+                <%#textarea%>
+                <%& label%>:<br /> {<%object_name%>_item.<%object_name%>.<%name%>}<br />
+                <%/textarea%>
+                <%#select%>
+                <%& label%>: {<%object_name%>_item.<%object_name%>.<%name%>}<br />
+                <%/select%>
+                <%#link%>
+                <v:link.typolink configuration="{parameter: <%name%>}"></v:link.typolink><br />
+                <%/link%>
+                <%#image%>
+                <v:media.image src="{<%object_name%>_item.<%object_name%>.<%name%>}" alt="alt text" width="100" /><br />
+                <%/image%>
+                <%/fields%>
+            </f:for>
+            <%/section%>
+            <%/fields%>
+            <%={{ }}=%> {{!change delimiters back to {{ }}
+        </div>
+    </f:section>
+</div>
