@@ -23,4 +23,4 @@ json file via a mustache template file.
     - a `locallang.txt` file filled with with titles/descriptions ready to be 
     copied over to `Resources/Private/Languages/locallang.xlf` of your template
     extension
- - enjoy the rest of your day!
+ - enjoy the rest of your day! :bowtie:
